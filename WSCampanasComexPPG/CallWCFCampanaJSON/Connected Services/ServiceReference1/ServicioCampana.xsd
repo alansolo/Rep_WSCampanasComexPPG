@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/EntidadesCampanasPPG.Modelo" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/EntidadesCampanasPPG.Modelo" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="Campana">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CampaExpress" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ClientesOtrosCanales" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ExcMecanicas" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FechaDocumento" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FechaFinPublico" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FechaFinSubCanal" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FechaInicioPublico" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FechaInicioSubCanal" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IdAlcanceTerritorial" type="xs:int" />
+      <xs:element minOccurs="0" name="IdMoneda" type="xs:int" />
+      <xs:element minOccurs="0" name="IdNegocioLider" type="xs:int" />
+      <xs:element minOccurs="0" name="IdSubcanal" type="xs:int" />
+      <xs:element minOccurs="0" name="IdTipoCampa" type="xs:int" />
+      <xs:element minOccurs="0" name="IdTipoSell" type="xs:int" />
+      <xs:element minOccurs="0" name="JustificacionNC" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Kroma" nillable="true" type="tns:Kroma" />
+      <xs:element minOccurs="0" name="LiderCampa" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ListaProducto" nillable="true" type="tns:ArrayOfProducto" />
+      <xs:element minOccurs="0" name="ListaPublicidad" nillable="true" type="tns:ArrayOfPublicidad" />
+      <xs:element minOccurs="0" name="NombreCampa" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ObjetivoNC" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ObsPublicidad" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PPGIDLiderCampa" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PPGIDRegistraCampa" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RegistraCampa" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Status" type="xs:int" />
+      <xs:element minOccurs="0" name="Title" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Campana" nillable="true" type="tns:Campana" />
+  <xs:complexType name="Kroma">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="DF" type="xs:decimal" />
+      <xs:element minOccurs="0" name="DF17" type="xs:decimal" />
+      <xs:element minOccurs="0" name="DF6" type="xs:decimal" />
+      <xs:element minOccurs="0" name="DF9" type="xs:decimal" />
+      <xs:element minOccurs="0" name="FronteraNorteMonterrey" type="xs:decimal" />
+      <xs:element minOccurs="0" name="IdLineaAportacion" type="xs:int" />
+      <xs:element minOccurs="0" name="Justificacion" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RegionalOccidente" type="xs:decimal" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Kroma" nillable="true" type="tns:Kroma" />
+  <xs:complexType name="ArrayOfProducto">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Producto" nillable="true" type="tns:Producto" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfProducto" nillable="true" type="tns:ArrayOfProducto" />
+  <xs:complexType name="Producto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Alcance" type="xs:int" />
+      <xs:element minOccurs="0" name="CantidadOdescuento" type="xs:decimal" />
+      <xs:element minOccurs="0" name="CapacidadProducto" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IdFamiliaEstelar" type="xs:int" />
+      <xs:element minOccurs="0" name="IdLineaProducto" type="xs:int" />
+      <xs:element minOccurs="0" name="IdMecanica" type="xs:int" />
+      <xs:element minOccurs="0" name="IdTipoProducto" type="xs:int" />
+      <xs:element minOccurs="0" name="Observaciones" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SistemaAplicacion" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Producto" nillable="true" type="tns:Producto" />
+  <xs:complexType name="ArrayOfPublicidad">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Publicidad" nillable="true" type="tns:Publicidad" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPublicidad" nillable="true" type="tns:ArrayOfPublicidad" />
+  <xs:complexType name="Publicidad">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="IdPublicidad" type="xs:int" />
+      <xs:element minOccurs="0" name="Monto" type="xs:decimal" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Publicidad" nillable="true" type="tns:Publicidad" />
+</xs:schema>
