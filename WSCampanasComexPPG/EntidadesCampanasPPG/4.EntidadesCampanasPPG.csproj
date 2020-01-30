@@ -49,6 +49,7 @@
     <Compile Include="Bitacora\BitacoraENT.cs" />
     <Compile Include="Campana\CampanaBitacoraENT.cs" />
     <Compile Include="Campana\CampanaENT.cs" />
+    <Compile Include="Campana\SKUValidacion.cs" />
     <Compile Include="Cronograma\CronogramaENT.cs" />
     <Compile Include="FlujoActividad\FlujoActividadENT.cs" />
     <Compile Include="GastoPlanta\GastoPlantaENT.cs" />

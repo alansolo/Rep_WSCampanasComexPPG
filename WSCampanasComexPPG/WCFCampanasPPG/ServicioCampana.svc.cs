@@ -79,11 +79,13 @@ namespace WCFCampanasPPG
             {
                 productoCampana.ListLineaFamilia = productoLineaENTRes.ListLineaFamilia;
                 productoCampana.ListMensaje = productoLineaENTRes.ListMensaje;
+                productoCampana.ListSKUValidacion = new List<SKUValidacion>();
                 productoCampana.Mensaje = productoLineaENTRes.Mensaje;
             }
             else
             {
                 productoCampana.ListMensaje = productoLineaENTRes.ListMensaje;
+                productoCampana.ListSKUValidacion = productoLineaENTRes.ListSkuValidacion;
                 productoCampana.Mensaje = productoLineaENTRes.Mensaje;
             }
 

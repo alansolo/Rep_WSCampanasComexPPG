@@ -377,7 +377,7 @@ app.controller("MyController", function ($scope, $http, $window) {
     {
         "Comentario": null,
         "IdCampania":0,
-        "ClaveCampania": "2019-NA-6",
+        "ClaveCampania": "2019-NA-3",
         "ListGastoPlanta": [
             { "AnioActual": 20.01, "AnioAnterior": 18, "Planta": "Tepexpan" },
             { "AnioActual": 15, "AnioAnterior": 13, "Planta": "Aga" },
@@ -428,8 +428,8 @@ app.controller("MyController", function ($scope, $http, $window) {
     //};
 
 
-    var ClaveCampana = "2019-LO-175";
-    var UrlArchivo = "https://one.web.ppg.com/la/comex/camp_publicidad/Documentos%20compartidos/ROOF%20MASTIC%20PRUEBA%20UNITARIA%201%20Plantilla_Seg_Maestro_Retail_v8.xlsm";
+    var ClaveCampana = "2019-RE-11";
+    var UrlArchivo = "https://one.web.ppg.com/la/comex/camp_publicidad/Documentos%20compartidos/Prueba%202019-NA-300%20E1.xlsm";
     /*"https://one.web.ppg.com/la/comex/camp_publicidad/Documentos%20compartidos/Layout_Mecanica_EA2.xlsx";*/
 
     var ArchivoProducto =
@@ -471,14 +471,15 @@ app.controller("MyController", function ($scope, $http, $window) {
         type: "POST",
         //url: "http://localhost:3639/ServicioCampana.svc/GuardarCampana",
         //url: "https://cmxcampaniadev.nac.ppg.com/WSCampania/ServicioCampana.svc/GuardarCampana",
-        //url: "http://localhost:3639/ServicioCampana.svc/GuardarProductoCampana",
+        url: "http://localhost:3639/ServicioCampana.svc/GuardarProductoCampana",
         //url: "https://cmxcampaniadev.nac.ppg.com/WSCampania/ServicioCampana.svc/GuardarProductoCampana",
         //url: "http://localhost:3639/ServicioCampana.svc/MostrarCampanaCronograma",
+        //url: "https://cmxcampaniatest.nac.ppg.com/WSCampania/ServicioCampana.svc/MostrarCampanaCronograma",
         //url: "http://localhost:3639/ServicioCampana.svc/GuardarCampanaCronograma",
-        //url: "https://cmxcampaniadev.nac.ppg.com/WSCampania/ServicioCampana.svc/GuardarCampanaCronograma",
+        //url: "https://cmxcampaniatest.nac.ppg.com/WSCampania/ServicioCampana.svc/GuardarCampanaCronograma",
         //url: "http://localhost:3639/ServicioCampana.svc/MostrarRentabilidad",
         //url: "https://cmxcampaniadev.nac.ppg.com/WSCampania/ServicioCampana.svc/MostrarRentabilidad",
-        url: "https://cmxcampaniatest.nac.ppg.com/WSCampania/ServicioCampana.svc/MostrarRentabilidad",
+        //url: "https://cmxcampaniatest.nac.ppg.com/WSCampania/ServicioCampana.svc/MostrarRentabilidad",
         //url: "http://localhost:3639/ServicioCampana.svc/MostrarReporteDirectivo",
         //url: "https://cmxcampaniadev.nac.ppg.com/WSCampania/ServicioCampana.svc/MostrarReporteDirectivo",
         //url: "http://localhost:3639/ServicioCampana.svc/GuardarBitacora",
@@ -494,9 +495,9 @@ app.controller("MyController", function ($scope, $http, $window) {
         //url: "http://localhost:3639/ServicioCampana.svc/MostrarBitacoraDetalleCampana",
         //url: "http://localhost:3639/ServicioCampana.svc/MostrarHistoricoGastoPlanta",
         //url: "https://cmxcampaniadev.nac.ppg.com/WSCampania/ServicioCampana.svc/MostrarHistoricoGastoPlanta",
-        //data: JSON.stringify(ArchivoProducto),
+        data: JSON.stringify(ArchivoProducto),
         //data: JSON.stringify(Campana),
-        data: JSON.stringify(Rentabilidad),
+        //data: JSON.stringify(Rentabilidad),
         //data: JSON.stringify(Bitacora),
         //data: JSON.stringify(FlujoActividad),
         //data: JSON.stringify(GastoPlantaHistorico),

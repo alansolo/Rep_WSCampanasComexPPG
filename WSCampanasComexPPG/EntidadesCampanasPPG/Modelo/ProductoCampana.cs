@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EntidadesCampanasPPG.Campana;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,5 +13,6 @@ namespace EntidadesCampanasPPG.Modelo
         public List<string> ListMensaje { get; set; }
         //public List<ProductoLinea> ListProductoLinea { get; set; }
         public List<LineaFamilia> ListLineaFamilia { get; set; }
+        public List<SKUValidacion> ListSKUValidacion { get; set; }
     }
 }

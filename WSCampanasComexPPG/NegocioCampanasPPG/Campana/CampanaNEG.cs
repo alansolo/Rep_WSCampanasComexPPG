@@ -666,6 +666,8 @@ namespace NegocioCampanasPPG.Campana
             {
                 dtParametro = parametroDAT.GetParametro(0, null);
 
+                //ArchivoLog.EscribirLog(null, "Si existe conexion base de datos.");
+
                 ListParametro = dtParametro.AsEnumerable()
                                 .Select(n => new Parametro
                                 {
@@ -750,6 +752,7 @@ namespace NegocioCampanasPPG.Campana
                         tipoFlujoActualizar = parametro.Valor;
                     }
 
+                    //ArchivoLog.EscribirLog(null, "Antes de sharepoint.");
 
                     using (WebClient client = new WebClient())
                     {
@@ -758,7 +761,11 @@ namespace NegocioCampanasPPG.Campana
                         client.DownloadFile(url, pathArchivoCompleto);
                     }
 
+                    //ArchivoLog.EscribirLog(null, "Despues de sharepoint.");
+
                     IFormatProvider culture = new CultureInfo("es-MX", true);
+
+                    //ArchivoLog.EscribirLog(null, "Antes de leer el archivo.");
 
                     var book = new ExcelQueryFactory(pathArchivoCompleto);
 
@@ -793,6 +800,8 @@ namespace NegocioCampanasPPG.Campana
                                                EstatusEnvio = 0,
                                                UsuarioCreacion = campana.PPGIDRegistraCampa
                                            }).ToList();
+
+                        //ArchivoLog.EscribirLog(null, "Despues de leer el archivo.");
                     }
                     catch (Exception ex)
                     {
@@ -889,6 +898,8 @@ namespace NegocioCampanasPPG.Campana
             string usuarioSharePoint = string.Empty;
             string passwordSharePoint = string.Empty;
             string pathArchivoCompleto = string.Empty;
+            string descripPadre = "PADRE";
+            string descripHijo = "HIJO";
 
             List<MecanicaRegalo> ListMecanicaRegalo = new List<MecanicaRegalo>();
             List<MecanicaMultiplo> ListMecanicaMultiplo = new List<MecanicaMultiplo>();
@@ -899,6 +910,8 @@ namespace NegocioCampanasPPG.Campana
             List<Tienda> ListTienda = new List<Tienda>();
             List<Tienda> ListTiendaExclusion = new List<Tienda>();
             List<Alcance> ListAlcance = new List<Alcance>();
+
+            List<SKUValidacion> ListSKUValidacion = new List<SKUValidacion>();
 
             ProductoLineaENT productoLineaENTRes = new ProductoLineaENT();
             
@@ -997,7 +1010,7 @@ namespace NegocioCampanasPPG.Campana
                                        PLitrosConCamp = !decimal.TryParse(row["Presupuesto_Litros_Con_Campaña"], out deciResultado) ? 0 : deciResultado
                                    }).ToList();
 
-                    ListMecanicaRegalo.RemoveAll(n => 
+                    ListMecanicaRegalo.RemoveAll(n =>
                                         string.IsNullOrEmpty(n.Submarca.ToString().Trim()) &&
                                         string.IsNullOrEmpty(n.Tipo_Marca.ToString().Trim()) &&
                                         string.IsNullOrEmpty(n.SKU.ToString().Trim()) &&
@@ -1220,7 +1233,7 @@ namespace NegocioCampanasPPG.Campana
 
                     #endregion
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Mensaje = "ERROR: No se guardo la informacion de Campaña Escenarios, el archivo no tiene el formato correcto, Hoja \"REGALO\".";
 
@@ -1259,11 +1272,11 @@ namespace NegocioCampanasPPG.Campana
                                         VLitrosAnioAnt = !decimal.TryParse(row["Ventas_Litros_Año_Anterior"], out deciResultado) ? 0 : deciResultado,
                                         PLitrosSinCamp = !decimal.TryParse(row["Presupuesto_Litros_Sin_Campaña"], out deciResultado) ? 0 : deciResultado,
                                         PLitrosConCamp = !decimal.TryParse(row["Presupuesto_Litros_Con_Campaña"], out deciResultado) ? 0 : deciResultado,
-                                        Grupo_Multiplo = id++                                      
+                                        Grupo_Multiplo = id++
                                     }).ToList();
 
 
-                    ListMecanicaMultiplo.RemoveAll(n => 
+                    ListMecanicaMultiplo.RemoveAll(n =>
                                         string.IsNullOrEmpty(n.Submarca.ToString().Trim()) &&
                                         string.IsNullOrEmpty(n.Tipo_Marca.ToString().Trim()) &&
                                         string.IsNullOrEmpty(n.SKU.ToString().Trim()) &&
@@ -1277,7 +1290,7 @@ namespace NegocioCampanasPPG.Campana
                                         n.PLitrosConCamp <= 0);
 
                     if (ListMecanicaMultiplo
-                            .Where(n => 
+                            .Where(n =>
                                         string.IsNullOrEmpty(n.Submarca.ToString().Trim()) ||
                                         string.IsNullOrEmpty(n.Tipo_Marca.ToString().Trim()) ||
                                         string.IsNullOrEmpty(n.SKU.ToString().Trim()) ||
@@ -1460,7 +1473,7 @@ namespace NegocioCampanasPPG.Campana
 
 
                     ListMecanicaMultiplo = ListMecanicaMultiplo
-                            .Where(n => 
+                            .Where(n =>
                                         !string.IsNullOrEmpty(n.Submarca.ToString()) &&
                                         !string.IsNullOrEmpty(n.Tipo_Marca.ToString()) &&
                                         !string.IsNullOrEmpty(n.SKU.ToString()) &&
@@ -1479,7 +1492,7 @@ namespace NegocioCampanasPPG.Campana
 
                     #endregion
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Mensaje = "ERROR: No se guardo la informacion de Campaña Escenarios, el archivo no tiene el formato correcto, Hoja \"MULTIPLO\".";
 
@@ -1519,7 +1532,7 @@ namespace NegocioCampanasPPG.Campana
                                         Grupo_Descuento = id++
                                     }).ToList();
 
-                    ListMecanicaDescuento.RemoveAll(n => 
+                    ListMecanicaDescuento.RemoveAll(n =>
                                         string.IsNullOrEmpty(n.Submarca.ToString().Trim()) &&
                                         string.IsNullOrEmpty(n.Tipo_Marca.ToString().Trim()) &&
                                         string.IsNullOrEmpty(n.SKU.ToString().Trim()) &&
@@ -1532,7 +1545,7 @@ namespace NegocioCampanasPPG.Campana
                                         n.PLitrosConCamp <= 0);
 
                     if (ListMecanicaDescuento
-                            .Where(n => 
+                            .Where(n =>
                                         string.IsNullOrEmpty(n.Submarca.ToString().Trim()) ||
                                         string.IsNullOrEmpty(n.Tipo_Marca.ToString().Trim()) ||
                                         string.IsNullOrEmpty(n.SKU.ToString().Trim()) ||
@@ -1713,7 +1726,7 @@ namespace NegocioCampanasPPG.Campana
                     }
 
                     ListMecanicaDescuento = ListMecanicaDescuento
-                            .Where(n => 
+                            .Where(n =>
                                         !string.IsNullOrEmpty(n.Submarca.ToString()) &&
                                         !string.IsNullOrEmpty(n.Tipo_Marca.ToString()) &&
                                         !string.IsNullOrEmpty(n.SKU.ToString()) &&
@@ -1730,7 +1743,7 @@ namespace NegocioCampanasPPG.Campana
 
                     #endregion
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Mensaje = "ERROR: No se guardo la informacion de Campaña Escenarios, el archivo no tiene el formato correcto, Hoja \"DESCUENTO\".";
 
@@ -1770,7 +1783,7 @@ namespace NegocioCampanasPPG.Campana
                                    }).ToList();
 
 
-                    ListMecanicaVolumen.RemoveAll(n => 
+                    ListMecanicaVolumen.RemoveAll(n =>
                                        string.IsNullOrEmpty(n.Submarca.ToString().Trim()) &&
                                        string.IsNullOrEmpty(n.Tipo_Marca.ToString().Trim()) &&
                                        string.IsNullOrEmpty(n.SKU.ToString().Trim()) &&
@@ -1785,7 +1798,7 @@ namespace NegocioCampanasPPG.Campana
                                        n.PLitrosConCamp <= 0);
 
                     if (ListMecanicaVolumen
-                           .Where(n => 
+                           .Where(n =>
                                        string.IsNullOrEmpty(n.Submarca.ToString().Trim()) ||
                                        string.IsNullOrEmpty(n.Tipo_Marca.ToString().Trim()) ||
                                        string.IsNullOrEmpty(n.SKU.ToString().Trim()) ||
@@ -2010,7 +2023,7 @@ namespace NegocioCampanasPPG.Campana
                     }
 
                     ListMecanicaVolumen = ListMecanicaVolumen
-                           .Where(n => 
+                           .Where(n =>
                                        !string.IsNullOrEmpty(n.Submarca.ToString()) &&
                                        !string.IsNullOrEmpty(n.Tipo_Marca.ToString()) &&
                                        !string.IsNullOrEmpty(n.SKU.ToString()) &&
@@ -2030,7 +2043,7 @@ namespace NegocioCampanasPPG.Campana
 
                     #endregion
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Mensaje = "ERROR: No se guardo la informacion de Campaña Escenarios, el archivo no tiene el formato correcto, Hoja \"VOLUMEN\".";
 
@@ -2070,7 +2083,7 @@ namespace NegocioCampanasPPG.Campana
                                         PLitrosConCamp = !decimal.TryParse(row["Presupuesto_Litros_Con_Campaña"], out deciResultado) ? 0 : deciResultado
                                     }).ToList();
 
-                    ListMecanicaKit.RemoveAll(n => 
+                    ListMecanicaKit.RemoveAll(n =>
                                        string.IsNullOrEmpty(n.Submarca.ToString().Trim()) &&
                                        string.IsNullOrEmpty(n.Tipo_Marca.ToString().Trim()) &&
                                        string.IsNullOrEmpty(n.SKU.ToString().Trim()) &&
@@ -2085,7 +2098,7 @@ namespace NegocioCampanasPPG.Campana
                                        n.PLitrosConCamp <= 0);
 
                     if (ListMecanicaKit
-                           .Where(n => 
+                           .Where(n =>
                                        string.IsNullOrEmpty(n.Submarca.ToString().Trim()) ||
                                        string.IsNullOrEmpty(n.Tipo_Marca.ToString().Trim()) ||
                                        string.IsNullOrEmpty(n.SKU.ToString().Trim()) ||
@@ -2308,7 +2321,7 @@ namespace NegocioCampanasPPG.Campana
 
 
                     ListMecanicaKit = ListMecanicaKit
-                           .Where(n => 
+                           .Where(n =>
                                        !string.IsNullOrEmpty(n.Submarca.ToString()) &&
                                        !string.IsNullOrEmpty(n.Tipo_Marca.ToString()) &&
                                        !string.IsNullOrEmpty(n.SKU.ToString()) &&
@@ -2328,7 +2341,7 @@ namespace NegocioCampanasPPG.Campana
 
                     #endregion
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Mensaje = "ERROR: No se guardo la informacion de Campaña Escenarios, el archivo no tiene el formato correcto, Hoja \"KIT\".";
 
@@ -2368,7 +2381,7 @@ namespace NegocioCampanasPPG.Campana
                                     }).ToList();
 
 
-                    ListMecanicaCombo.RemoveAll(n => 
+                    ListMecanicaCombo.RemoveAll(n =>
                                        string.IsNullOrEmpty(n.Submarca.ToString().Trim()) &&
                                        string.IsNullOrEmpty(n.Tipo_Marca.ToString().Trim()) &&
                                        string.IsNullOrEmpty(n.SKU.ToString().Trim()) &&
@@ -2383,7 +2396,7 @@ namespace NegocioCampanasPPG.Campana
                                        n.PLitrosConCamp <= 0);
 
                     if (ListMecanicaCombo
-                           .Where(n => 
+                           .Where(n =>
                                        string.IsNullOrEmpty(n.Submarca.ToString().Trim()) ||
                                        string.IsNullOrEmpty(n.Tipo_Marca.ToString().Trim()) ||
                                        string.IsNullOrEmpty(n.SKU.ToString().Trim()) ||
@@ -2593,7 +2606,7 @@ namespace NegocioCampanasPPG.Campana
 
 
                     ListMecanicaCombo = ListMecanicaCombo
-                           .Where(n => 
+                           .Where(n =>
                                        !string.IsNullOrEmpty(n.Submarca.ToString()) &&
                                        !string.IsNullOrEmpty(n.Tipo_Marca.ToString()) &&
                                        !string.IsNullOrEmpty(n.SKU.ToString()) &&
@@ -2612,7 +2625,7 @@ namespace NegocioCampanasPPG.Campana
 
                     #endregion
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Mensaje = "ERROR: No se guardo la informacion de Campaña Escenarios, el archivo no tiene el formato correcto, Hoja \"COMBO\".";
 
@@ -2654,7 +2667,7 @@ namespace NegocioCampanasPPG.Campana
                                       //string.IsNullOrEmpty(n.ClaveSobreprecio.ToString())
                                       string.IsNullOrEmpty(n.Segmento.ToString().Trim()) &&
                                       string.IsNullOrEmpty(n.SubCanal.ToString().Trim()) //&&
-                                      //string.IsNullOrEmpty(n.Exclusion.ToString())
+                                                                                         //string.IsNullOrEmpty(n.Exclusion.ToString())
                                       );
 
                     if (ListTienda
@@ -2665,9 +2678,9 @@ namespace NegocioCampanasPPG.Campana
                                       //string.IsNullOrEmpty(n.DescripcionRegion.ToString()) ||
                                       //string.IsNullOrEmpty(n.DescripcionZona.ToString()) ||
                                       //string.IsNullOrEmpty(n.ClaveSobreprecio.ToString()) //&&
-                                      string.IsNullOrEmpty(n.Segmento.ToString().Trim()) ||                  
+                                      string.IsNullOrEmpty(n.Segmento.ToString().Trim()) ||
                                       string.IsNullOrEmpty(n.SubCanal.ToString().Trim()) //||
-                                      //string.IsNullOrEmpty(n.Exclusion.ToString())
+                                                                                         //string.IsNullOrEmpty(n.Exclusion.ToString())
                           ).Count() != 1)
                     {
                         ////ID_Tienda
@@ -2785,7 +2798,7 @@ namespace NegocioCampanasPPG.Campana
 
                             //return productoLineaENTRes;
                         }
-                       
+
                         ////Exclusion
                         //if (ListTienda.Count > 0 && ListTienda.Where(n => string.IsNullOrEmpty(n.Exclusion.ToString())).Count() > 0)
                         //{
@@ -2809,7 +2822,7 @@ namespace NegocioCampanasPPG.Campana
                                       //!string.IsNullOrEmpty(n.ClaveSobreprecio.ToString())
                                       !string.IsNullOrEmpty(n.Segmento.ToString()) &&
                                       !string.IsNullOrEmpty(n.SubCanal.ToString()) //&&
-                                      //!string.IsNullOrEmpty(n.Exclusion.ToString()) 
+                                                                                   //!string.IsNullOrEmpty(n.Exclusion.ToString()) 
                           ).ToList();
 
                     idTienda = 0;
@@ -2820,14 +2833,14 @@ namespace NegocioCampanasPPG.Campana
                         n.Exclusion = (idTienda + 1).ToString();
                     });
 
-                    if(ListTienda.Count == 0)
+                    if (ListTienda.Count == 0)
                     {
                         ListTienda.Add(new Tienda());
                     }
 
                     #endregion
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Mensaje = "ERROR: No se guardo la informacion de Campaña Escenarios, el archivo no tiene el formato correcto, Hoja \"CLIENTES\".";
 
@@ -2850,7 +2863,7 @@ namespace NegocioCampanasPPG.Campana
                                    {
                                        //IdTienda = row["ID_Tienda"].Cast<int>(),
                                        BillTo = row["Clave"],
-                                       CustomerName = row["Descripcion/Nombre"],                                      
+                                       CustomerName = row["Descripcion/Nombre"],
                                        SubCanal = row["SubCanal"],
                                        Segmento = row["Segmento"],
                                        //Exclusion = row["Exclusion"],
@@ -2878,10 +2891,10 @@ namespace NegocioCampanasPPG.Campana
                                       string.IsNullOrEmpty(n.SubCanal.ToString().Trim()) ||
                                       string.IsNullOrEmpty(n.Segmento.ToString().Trim()) ||
                                       string.IsNullOrEmpty(n.Region.ToString().Trim()) //||
-                                      //string.IsNullOrEmpty(n.ClaveSobreprecio.ToString()) //&&
-                                                                                          //string.IsNullOrEmpty(n.Segmento.ToString()) &&                  
-                                                                                          //string.IsNullOrEmpty(n.SubCanal.ToString()) &&
-                                                                                          //string.IsNullOrEmpty(n.Exclusion.ToString())
+                                                                                       //string.IsNullOrEmpty(n.ClaveSobreprecio.ToString()) //&&
+                                                                                       //string.IsNullOrEmpty(n.Segmento.ToString()) &&                  
+                                                                                       //string.IsNullOrEmpty(n.SubCanal.ToString()) &&
+                                                                                       //string.IsNullOrEmpty(n.Exclusion.ToString())
                           ).Count() != 1)
                     {
                         ////ID_Tienda
@@ -3011,7 +3024,7 @@ namespace NegocioCampanasPPG.Campana
                                       !string.IsNullOrEmpty(n.SubCanal.ToString()) &&
                                       !string.IsNullOrEmpty(n.Segmento.ToString()) &&
                                       !string.IsNullOrEmpty(n.Region.ToString()) //&&
-                                      //!string.IsNullOrEmpty(n.ClaveSobreprecio.ToString())
+                                                                                 //!string.IsNullOrEmpty(n.ClaveSobreprecio.ToString())
                           ).ToList();
 
                     idTienda = 0;
@@ -3055,29 +3068,29 @@ namespace NegocioCampanasPPG.Campana
                                         //IdAlcance = row["Bill_To"],                                       
                                         ProductoEstelar = row["Producto_Estelar"],
                                         Observaciones = row["Alcance"],
-                                        MecanicaPromocional = row["Mecanica_Promocional"],                                     
+                                        MecanicaPromocional = row["Mecanica_Promocional"],
                                         Factor = row["Factor"],
                                         UnidadNegocio = row["Segmento"],
                                     }).ToList();
 
-                    ListAlcance.RemoveAll(n => 
+                    ListAlcance.RemoveAll(n =>
                                       string.IsNullOrEmpty(n.ProductoEstelar.ToString().Trim()) &&
                                       string.IsNullOrEmpty(n.Observaciones.ToString().Trim()) &&
-                                      string.IsNullOrEmpty(n.MecanicaPromocional.ToString().Trim()) &&                                     
+                                      string.IsNullOrEmpty(n.MecanicaPromocional.ToString().Trim()) &&
                                       //string.IsNullOrEmpty(n.Factor.ToString().Trim()) &&
                                       string.IsNullOrEmpty(n.UnidadNegocio.ToString().Trim())
                                       );
 
                     if (ListAlcance
-                          .Where(n => 
+                          .Where(n =>
                                       string.IsNullOrEmpty(n.ProductoEstelar.ToString().Trim()) ||
                                       string.IsNullOrEmpty(n.Observaciones.ToString().Trim()) ||
-                                      string.IsNullOrEmpty(n.MecanicaPromocional.ToString().Trim()) ||                                      
+                                      string.IsNullOrEmpty(n.MecanicaPromocional.ToString().Trim()) ||
                                       //string.IsNullOrEmpty(n.Factor.ToString().Trim()) ||
                                       string.IsNullOrEmpty(n.UnidadNegocio.ToString().Trim())
                           ).Count() != 1)
                     {
-                        
+
 
                         //Producto_Estelar
                         if (ListAlcance.Count > 0 && ListAlcance.Where(n => string.IsNullOrEmpty(n.ProductoEstelar.ToString())).Count() > 0)
@@ -3119,7 +3132,7 @@ namespace NegocioCampanasPPG.Campana
                             productoLineaENTRes.ListLineaFamilia = new List<LineaFamilia>();
 
                             //return productoLineaENTRes;
-                        }                     
+                        }
 
                         ////Factor
                         //if (ListAlcance.Count > 0 && ListAlcance.Where(n => string.IsNullOrEmpty(n.Observaciones.ToString())).Count() > 0)
@@ -3150,10 +3163,10 @@ namespace NegocioCampanasPPG.Campana
 
 
                     ListAlcance = ListAlcance
-                          .Where(n => 
+                          .Where(n =>
                                       !string.IsNullOrEmpty(n.ProductoEstelar.ToString()) &&
                                       !string.IsNullOrEmpty(n.Observaciones.ToString()) &&
-                                      !string.IsNullOrEmpty(n.MecanicaPromocional.ToString()) &&                                     
+                                      !string.IsNullOrEmpty(n.MecanicaPromocional.ToString()) &&
                                       //!string.IsNullOrEmpty(n.Factor.ToString()) &&
                                       !string.IsNullOrEmpty(n.UnidadNegocio.ToString())
                           ).ToList();
@@ -3173,19 +3186,269 @@ namespace NegocioCampanasPPG.Campana
                     //return productoLineaENTRes;
                 }
 
-
                 //SE VALIDA QUE NO TENGA ERRORES
-                if(productoLineaENTRes.ListMensaje.Count > 0)
+                if (productoLineaENTRes.ListMensaje.Count > 0)
                 {
                     productoLineaENTRes.Mensaje = "ERROR";
 
                     return productoLineaENTRes;
                 }
 
+
+
+                ///////////////////////////////////////////////////
+                ///VALIDAR SKU NO REPETIDOS EN REGALO
+
+       
+                var listSKURegaloV = (from regalo in ListMecanicaRegalo.Where(n => n.Tipo.ToUpper() == descripPadre)
+                                      group regalo.SKU by regalo.SKU into g
+                                      select new { sku = g.Key, count = g.Count() }).Where(n => n.count > 1).ToList();
+
+                foreach (var skuRegalo in listSKURegaloV)
+                {
+                    SKUValidacion skuValidacion = new SKUValidacion();
+                    skuValidacion.SKU = skuRegalo.sku;
+                    skuValidacion.Mecanica = "Regalo";
+                    skuValidacion.Mensaje = "El SKU esta repetido, validar.";
+
+                    ListSKUValidacion.Add(skuValidacion);
+                }
+
+                ///////////////////////////////////////////////////
+                ///VALIDAR SKU NO REPETIDOS EN DESCUENTO
+
+                var listSKUDescuentoV = (from descuento in ListMecanicaDescuento
+                                         group descuento.SKU by descuento.SKU into g
+                                         select new { SKU = g.Key, count = g.Count() }).Where(n => n.count > 1).ToList();
+
+                foreach (var skuDescuento in listSKUDescuentoV)
+                {
+                    SKUValidacion skuValidacion = new SKUValidacion();
+                    skuValidacion.SKU = skuDescuento.SKU;
+                    skuValidacion.Mecanica = "Descuento";
+                    skuValidacion.Mensaje = "El SKU esta repetido, validar.";
+
+                    ListSKUValidacion.Add(skuValidacion);
+                }
+
+                ///////////////////////////////////////////////////
+                ///VALIDAR SKU PADRES E HIJOS NO ESTEN EN DESCUENTO
+                ///REGALO VS DESCUENTO
+
+                var listSKURegalo = (from regalo in ListMecanicaRegalo
+                                     from descuento in ListMecanicaDescuento
+                                     where regalo.SKU == descuento.SKU
+                                     && (regalo.Tipo.ToUpper() == descripPadre || regalo.Tipo.ToUpper() == descripHijo)
+                                     select regalo).Select(m => m.SKU).Distinct().ToList();
+
+                foreach (var skuReg in listSKURegalo)
+                {
+                    SKUValidacion skuValidacion = new SKUValidacion();
+                    skuValidacion.SKU = skuReg;
+                    skuValidacion.Mecanica = "Regalo, Descuento";
+                    skuValidacion.Mensaje = "El SKU en Regalo (Padre, Hijo), esta repetido en Descuento, validar.";
+
+                    ListSKUValidacion.Add(skuValidacion);
+                }
+
+                productoLineaENTRes.ListSkuValidacion = ListSKUValidacion;
+
+                if (productoLineaENTRes.ListSkuValidacion.Count() > 0)
+                {
+                    productoLineaENTRes.Mensaje = "ERROR";
+                    return productoLineaENTRes;
+                }
+
+                ///////////////////////////////////////////////////
+                ///VALIDAR SKU NO REPETIDOS EN DIFERENTES MECANICAS
+                ///REGALO VS MULTIPLO
+
+                /*listSKURegalo = (from regalo in ListMecanicaRegalo
+                                     from multiplo in ListMecanicaMultiplo
+                                     where regalo.SKU == multiplo.SKU
+                                        && regalo.Tipo.ToUpper() == descripPadre
+                                        && multiplo.Multiplo_Padre == 1
+                                     select regalo).ToList();
+
+                ///////////////////////////////////////////////////
+                ///VALIDAR SKU NO REPETIDOS EN DIFERENTES MECANICAS
+                ///REGALO VS MULTIPLO
+
+                listSKURegalo = (from regalo in ListMecanicaRegalo
+                                 from volumen in ListMecanicaVolumen
+                                 where regalo.SKU == volumen.SKU
+                                    && regalo.Tipo.ToUpper() == descripPadre
+                                 //&&
+                                 select regalo).ToList();
+
+                ///////////////////////////////////////////////////
+                ///VALIDAR SKU NO REPETIDOS EN DIFERENTES MECANICAS
+                ///REGALO VS MULTIPLO
+
+                listSKURegalo = (from regalo in ListMecanicaRegalo
+                                 from kit in ListMecanicaKit
+                                 where regalo.SKU == kit.SKU
+                                    && regalo.Tipo.ToLower() == descripPadre
+                                    && kit.Tipo.ToUpper() == descripPadre
+                                 select regalo).ToList();
+
+                ///////////////////////////////////////////////////
+                ///VALIDAR SKU NO REPETIDOS EN DIFERENTES MECANICAS
+                ///REGALO VS MULTIPLO
+
+                listSKURegalo = (from regalo in ListMecanicaRegalo
+                                 from combo in ListMecanicaCombo
+                                 where regalo.SKU == combo.SKU
+                                    && regalo.Tipo.ToUpper() == descripPadre
+                                    && combo.Tipo.ToUpper() == descripPadre
+                                 select regalo).ToList();
+
+
+
+                ///////////////////////////////////////////////////
+                ///VALIDAR SKU NO REPETIDOS EN DIFERENTES MECANICAS
+                ///REGALO VS MULTIPLO
+
+                var listSKUMultiploV = ListMecanicaMultiplo.Where(n => n.Multiplo_Padre == 1).Select(m => m.SKU).Distinct().ToList();
+
+
+                ///////////////////////////////////////////////////
+                ///VALIDAR SKU NO REPETIDOS EN DIFERENTES MECANICAS
+                ///REGALO VS MULTIPLO
+
+                var listSKUMultiplo = (from multiplo in ListMecanicaMultiplo
+                                       from descuento in ListMecanicaDescuento
+                                       where multiplo.SKU == descuento.SKU
+                                            && multiplo.Multiplo_Padre == 1 
+                                            //&& descuento.Grupo_Descuento
+                                       select multiplo).ToList();
+
+                ///////////////////////////////////////////////////
+                ///VALIDAR SKU NO REPETIDOS EN DIFERENTES MECANICAS
+                ///REGALO VS MULTIPLO
+
+                listSKUMultiplo = (from multiplo in ListMecanicaMultiplo
+                                   from volumen in ListMecanicaVolumen
+                                   where multiplo.SKU == volumen.SKU
+                                        && multiplo.Multiplo_Padre == 1
+                                        //&&
+                                   select multiplo).ToList();
+
+                ///////////////////////////////////////////////////
+                ///VALIDAR SKU NO REPETIDOS EN DIFERENTES MECANICAS
+                ///REGALO VS MULTIPLO
+
+                listSKUMultiplo = (from multiplo in ListMecanicaMultiplo
+                                   from kit in ListMecanicaKit
+                                   where multiplo.SKU == kit.SKU
+                                        && multiplo.Multiplo_Padre == 1
+                                        && kit.Tipo.ToUpper() == descripPadre
+                                   select multiplo).ToList();
+
+                ///////////////////////////////////////////////////
+                ///VALIDAR SKU NO REPETIDOS EN DIFERENTES MECANICAS
+                ///REGALO VS MULTIPLO
+
+                listSKUMultiplo = (from multiplo in ListMecanicaMultiplo
+                                   from combo in ListMecanicaCombo
+                                   where multiplo.SKU == combo.SKU
+                                        && multiplo.Multiplo_Padre == 1
+                                        && combo.Tipo.ToUpper() == descripPadre
+                                   select multiplo).ToList();
+
+
+
+                ///////////////////////////////////////////////////
+                ///VALIDAR SKU NO REPETIDOS EN DIFERENTES MECANICAS
+                ///REGALO VS MULTIPLO
+
+                var listSKUDescuentoV = ListMecanicaDescuento.Select(m => m.SKU).Distinct().ToList();
+
+                ///////////////////////////////////////////////////
+                ///VALIDAR SKU NO REPETIDOS EN DIFERENTES MECANICAS
+                ///REGALO VS MULTIPLO
+
+                var listSKUDescuento = (from descuento in ListMecanicaDescuento
+                                        from volumen in ListMecanicaVolumen
+                                        where descuento.SKU == volumen.SKU
+                                            //&&
+                                        select descuento).ToList();
+
+                ///////////////////////////////////////////////////
+                ///VALIDAR SKU NO REPETIDOS EN DIFERENTES MECANICAS
+                ///REGALO VS MULTIPLO
+
+                listSKUDescuento = (from descuento in ListMecanicaDescuento
+                                    from kit in ListMecanicaKit
+                                    where descuento.SKU == kit.SKU
+                                        && kit.Tipo.ToUpper() == descripPadre
+                                    select descuento).ToList();
+
+                ///////////////////////////////////////////////////
+                ///VALIDAR SKU NO REPETIDOS EN DIFERENTES MECANICAS
+                ///REGALO VS MULTIPLO
+
+                listSKUDescuento = (from descuento in ListMecanicaDescuento
+                                    from combo in ListMecanicaCombo
+                                    where descuento.SKU == combo.SKU
+                                        && combo.Tipo.ToUpper() == descripPadre
+                                    select descuento).ToList();
+
+
+
+
+                ///////////////////////////////////////////////////
+                ///VALIDAR SKU NO REPETIDOS EN DIFERENTES MECANICAS
+                ///REGALO VS MULTIPLO
+
+                var listSKUVolumenV = ListMecanicaVolumen.Select(n => n.SKU).Distinct().ToList();
+
+                ///////////////////////////////////////////////////
+                ///VALIDAR SKU NO REPETIDOS EN DIFERENTES MECANICAS
+                ///REGALO VS MULTIPLO
+
+                var listSKUVolumen = (from volumen in ListMecanicaVolumen
+                                        from kit in ListMecanicaKit
+                                        where volumen.SKU == kit.SKU
+                                            && kit.Tipo.ToUpper() == descripPadre
+                                        select volumen).ToList();
+
+                ///////////////////////////////////////////////////
+                ///VALIDAR SKU NO REPETIDOS EN DIFERENTES MECANICAS
+                ///REGALO VS MULTIPLO
+
+                listSKUVolumen = (from volumen in ListMecanicaVolumen
+                                      from combo in ListMecanicaCombo
+                                      where volumen.SKU == combo.SKU
+                                            && combo.Tipo.ToUpper() == descripPadre
+                                      select volumen).ToList();
+
+
+                ///////////////////////////////////////////////////
+                ///VALIDAR SKU NO REPETIDOS EN DIFERENTES MECANICAS
+                ///REGALO VS MULTIPLO
+
+                var listSKUKitV = ListMecanicaKit.Where(m => m.Tipo.ToUpper() == descripPadre).Select(n => n.SKU).Distinct().ToList();
+
+                ///////////////////////////////////////////////////
+                ///VALIDAR SKU NO REPETIDOS EN DIFERENTES MECANICAS
+                ///REGALO VS MULTIPLO
+
+                var listSKUKit = (from kit in ListMecanicaKit
+                                  from combo in ListMecanicaCombo
+                                  where kit.SKU == combo.SKU
+                                        && kit.Tipo.ToUpper() == descripPadre
+                                        && combo.Tipo.ToUpper() == descripPadre
+                                  select kit).ToList();
+                */
+
+
+
+
                 CampanaDAT campanaDAT = new CampanaDAT();
 
                 ListLineaFamilia = campanaDAT.GuardarProdutoCampanaCompleto(ClaveCampana, ListMecanicaRegalo, ListMecanicaMultiplo, ListMecanicaDescuento,
-                                                                        ListMecanicaVolumen, ListMecanicaKit, ListMecanicaCombo, ListTienda, ListTiendaExclusion, 
+                                                                        ListMecanicaVolumen, ListMecanicaKit, ListMecanicaCombo, ListTienda, ListTiendaExclusion,
                                                                         ListAlcance);
 
                 if (ListLineaFamilia != null)
@@ -3215,6 +3478,11 @@ namespace NegocioCampanasPPG.Campana
                 //{
                 //    Mensaje = "ERROR: Ocurrio un problema inesperado, identifique si se guardo correctamente la informacion, o consulte al administrador de sistemas.";
                 //}
+
+
+
+               
+
             }
             catch (Exception ex)
             {
@@ -5727,7 +5995,7 @@ namespace NegocioCampanasPPG.Campana
 
                         ListReporteSKU.ForEach(n =>
                         {
-                            if(esAgrupador && ListReporteSKU.Count >= contOrdenSKU + 2 && ListReporteSKU[contOrdenSKU + 2].Descripcion.ToUpper().Trim() == etiquetaSubtotal)
+                            if(esAgrupador && ListReporteSKU.Count > contOrdenSKU + 2 && ListReporteSKU[contOrdenSKU + 2].Descripcion.ToUpper().Trim() == etiquetaSubtotal)
                             {
                                 subContGrupoSKU = 0;
                                 contGrupoSKU++;
@@ -7731,6 +7999,10 @@ namespace NegocioCampanasPPG.Campana
         {
             List<Cronograma> ListCronogramaValidacion;
             StringBuilder validar = new StringBuilder();
+
+            ListCronograma.ForEach(n => {
+                n.ValidarFechaVsActual = string.Empty;
+            });
 
             //VALIDAR TIEMPO VS LO ACTUAL
             ListCronogramaValidacion = ListCronograma.Where(n => n.FechaInicio < Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"))).ToList();
